@@ -20,7 +20,7 @@ public class LoadDatabase {
             LOG.info("Database preloading data: " + repository.save(new Superhero("Spider-man")).getName());
             LOG.info("Database preloading data: " + repository.save(new Superhero("Lobezno")).getName());
             LOG.info("Database preloading data: " + repository.save(new Superhero("Manolito")).getName());
-            LOG.info("Database preloading data: " + repository.save(new Superhero("Super Lópe")).getName());
+            LOG.info("Database preloading data: " + repository.save(new Superhero("Super López")).getName());
         };
     }
 }
