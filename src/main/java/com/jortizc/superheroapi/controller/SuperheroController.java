@@ -1,13 +1,12 @@
 package com.jortizc.superheroapi.controller;
 
+import com.jortizc.superheroapi.exception.ResourceNotFoundException;
 import com.jortizc.superheroapi.model.Superhero;
 import com.jortizc.superheroapi.model.repository.SuperheroRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 @RestController
 public class SuperheroController {
@@ -33,17 +32,20 @@ public class SuperheroController {
     }
 
     @GetMapping("/superhero/{id}")
-    public Optional getSuperheroById(@PathVariable Long id) {
-        return repository.findById(id);
+    public Superhero getSuperheroById(@PathVariable Long id)
+            throws ResourceNotFoundException{
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Superhero not found for this id: " + id));
     }
 
     @PutMapping("/superhero/{id}")
-    public Optional updateSuperhero(@RequestBody Superhero updatedSuperhero, @PathVariable Long id) {
+    public Superhero updateSuperhero(@RequestBody Superhero updatedSuperhero, @PathVariable Long id)
+            throws ResourceNotFoundException{
         return repository.findById(id)
                 .map(superhero -> {
                     superhero.setName(updatedSuperhero.getName());
                     return repository.save(superhero);
-                });
+                }).orElseThrow(() -> new ResourceNotFoundException("Superhero not found for this id: " + id));
     }
 
     @DeleteMapping ("/superhero/{id}")
