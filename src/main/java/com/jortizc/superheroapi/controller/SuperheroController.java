@@ -3,6 +3,7 @@ package com.jortizc.superheroapi.controller;
 import com.jortizc.superheroapi.exception.ResourceNotFoundException;
 import com.jortizc.superheroapi.model.Superhero;
 import com.jortizc.superheroapi.model.repository.SuperheroRepository;
+import com.jortizc.superheroapi.utils.annotations.LogExecutionTime;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,21 +18,25 @@ public class SuperheroController {
     }
 
     @GetMapping("/superhero")
+    @LogExecutionTime
     public List<Superhero> getAllSuperhero() {
         return repository.findAll();
     }
 
     @PostMapping("/superhero")
+    @LogExecutionTime
     public Superhero postNewSuperhero(@RequestBody Superhero newSuperhero) {
         return repository.save(newSuperhero);
     }
 
     @GetMapping("/superhero/search")
+    @LogExecutionTime
     public List<Superhero> getSuperherosByName (@RequestParam String name) {
         return repository.findByNameLike(name.toUpperCase(Locale.ROOT));
     }
 
     @GetMapping("/superhero/{id}")
+    @LogExecutionTime
     public Superhero getSuperheroById(@PathVariable Long id)
             throws ResourceNotFoundException{
         return repository.findById(id)
@@ -39,6 +44,7 @@ public class SuperheroController {
     }
 
     @PutMapping("/superhero/{id}")
+    @LogExecutionTime
     public Superhero updateSuperhero(@RequestBody Superhero updatedSuperhero, @PathVariable Long id)
             throws ResourceNotFoundException{
         return repository.findById(id)
@@ -49,6 +55,7 @@ public class SuperheroController {
     }
 
     @DeleteMapping ("/superhero/{id}")
+    @LogExecutionTime
     public void deleteSuperhero (@PathVariable Long id) {
         repository.deleteById(id);
     }
